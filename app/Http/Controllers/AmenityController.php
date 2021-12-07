@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTypes;
-use App\Models\Type;
+use App\Http\Requests\StoreFeatures;
+use App\Models\Amenity;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
-class TypeController extends Controller
+class AmenityController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Type[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
+     * @return Amenity[]|Collection
      */
     public function index()
     {
-        return Type::all();
+        return Amenity::all();
     }
 
     /**
@@ -34,7 +35,7 @@ class TypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreTypes $request)
+    public function store(StoreFeatures $request)
     {
         $inputs = $request->all();
         if (!hasRole('Manager')) {
@@ -45,11 +46,11 @@ class TypeController extends Controller
                 ]);
             }
         }
-        $type = new Type();
+        $type = new Amenity();
         $type->fill($inputs);
         $type->save();
         return response()->json([
-            'message'=>'The Type of the Room has been added Successfully',
+            'message'=>'The Amenity of the Room has been added Successfully',
             'status'=>200
         ]);
     }
@@ -57,10 +58,10 @@ class TypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Type  $type
+     * @param  \App\Models\Amenity  $amenity
      * @return \Illuminate\Http\Response
      */
-    public function show(Type $type)
+    public function show(Amenity $amenity)
     {
         //
     }
@@ -68,10 +69,10 @@ class TypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Type  $type
+     * @param  \App\Models\Amenity  $amenity
      * @return \Illuminate\Http\Response
      */
-    public function edit(Type $type)
+    public function edit(Amenity $amenity)
     {
         //
     }
@@ -80,10 +81,10 @@ class TypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Type  $type
+     * @param  \App\Models\Amenity  $amenity
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Type $type)
+    public function update(Request $request, Amenity $amenity)
     {
         //
     }
@@ -91,10 +92,10 @@ class TypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Type  $type
+     * @param  \App\Models\Amenity  $amenity
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Type $type)
+    public function destroy(Amenity $amenity)
     {
         //
     }

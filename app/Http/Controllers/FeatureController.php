@@ -2,30 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreTypes;
-use App\Models\Type;
+use App\Http\Requests\StoreFeatures;
+use App\Models\Feature;
 use Illuminate\Http\Request;
 
-class TypeController extends Controller
+class FeatureController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Type[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return Type::all();
+        return Feature::all();
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Feature[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -34,7 +34,7 @@ class TypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreTypes $request)
+    public function store(StoreFeatures $request)
     {
         $inputs = $request->all();
         if (!hasRole('Manager')) {
@@ -45,11 +45,11 @@ class TypeController extends Controller
                 ]);
             }
         }
-        $type = new Type();
+        $type = new Feature();
         $type->fill($inputs);
         $type->save();
         return response()->json([
-            'message'=>'The Type of the Room has been added Successfully',
+            'message'=>'The Feature of the Room has been added Successfully',
             'status'=>200
         ]);
     }
@@ -57,10 +57,10 @@ class TypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Type  $type
+     * @param  \App\Models\Feature  $feature
      * @return \Illuminate\Http\Response
      */
-    public function show(Type $type)
+    public function show(Feature $feature)
     {
         //
     }
@@ -68,10 +68,10 @@ class TypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Type  $type
+     * @param  \App\Models\Feature  $feature
      * @return \Illuminate\Http\Response
      */
-    public function edit(Type $type)
+    public function edit(Feature $feature)
     {
         //
     }
@@ -80,22 +80,36 @@ class TypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Type  $type
+     * @param  \App\Models\Feature  $feature
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Type $type)
+    public function update(Request $request, Feature $feature)
     {
-        //
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Type  $type
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Feature  $feature
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Type $type)
+    public function destroy($id)
     {
-        //
+        if(!hasRole('Manager') ) {
+            if(!hasRole('Supervisor')) {
+                return response()->json([
+                    'status' => 403,
+                    'message' => 'You are not allowed to delete'
+                ]);
+            }
+        }
+        $news=Feature::where('id',$id)->delete();
+        if($news){
+            return response()->json([
+                'status'=>200,
+                'message'=>'Feature has been deleted'
+            ]);
+        }
     }
 }
